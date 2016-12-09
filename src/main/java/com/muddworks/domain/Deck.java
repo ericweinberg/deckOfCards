@@ -3,6 +3,7 @@ package com.muddworks.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * A representation of a deck of cards.  A deck is composed of 52 cards, which breaks out to
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class Deck {
 
   private List<Card> cards = new ArrayList<>(52);
+  private Random random = new Random();
 
   public Deck() {
     for (Suit suit : Suit.values()) {
@@ -20,6 +22,20 @@ public class Deck {
         cards.add(new Card(suit, i));
       }
     }
+    shuffle();
+  }
+
+  /**
+   * Shuffle the deck. The routine is pretty basic. Pick a random number and the add it to a new list. Repeat until
+   * the old list is empty.
+   */
+  public void shuffle() {
+    List<Card> shuffledCards = new ArrayList<>(52);
+    while (cards.size() > 0) {
+      int index = random.nextInt(cards.size());
+      shuffledCards.add(cards.remove(index));
+    }
+    cards = shuffledCards;
   }
 
   /**

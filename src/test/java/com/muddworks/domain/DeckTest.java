@@ -2,11 +2,14 @@ package com.muddworks.domain;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Test Suite for the {@link Deck}
@@ -20,6 +23,21 @@ public class DeckTest {
     Deck deck = new Deck();
     assertThat(deck.dealOneCard().isPresent(), is(true));
     assertThat(deck.getCards().size(), is(51));
+  }
+
+  /**
+   * Kind of hard to test the shuffle here. Just want to make sure that we're not in the same order as before, although
+   * that's  technically  a possibility. Someone better at math can figure out the odds.
+   */
+  @Test
+  public void testShuffle() {
+    Deck deck = new Deck();
+    List<Card> cards = deck.getCards();
+    assertThat(cards.size(), is(52));
+    deck.shuffle();
+    List<Card> shuffledCards = deck.getCards();
+    assertThat(shuffledCards.size(), is(52));
+    assertFalse(Arrays.equals(cards.toArray(), shuffledCards.toArray()));
   }
 
   @Test
@@ -65,8 +83,14 @@ public class DeckTest {
 
   private void verifySuit(Deck deck, Suit suit) {
     List<Card> cards = deck.getCards().stream().filter(it -> it.getSuit() == suit).collect(Collectors.toList());
-    for (int i = 1; i <= 13; i++) {
-      assertThat(cards.get(i - 1).getValue(), is(i));
+    boolean[] cardFound = new boolean[13];
+    cards.forEach(card -> {
+      cardFound[card.getValue()-1] = true;
+    });
+    for(boolean it : cardFound) {
+      if(!it) {
+        fail();
+      }
     }
   }
 }
