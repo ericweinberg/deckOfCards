@@ -16,6 +16,24 @@ import static org.junit.Assert.assertThat;
 public class DeckTest {
 
   @Test
+  public void testDealOne() {
+    Deck deck = new Deck();
+    assertThat(deck.dealOneCard().isPresent(), is(true));
+    assertThat(deck.getCards().size(), is(51));
+  }
+
+  @Test
+  public void testDealAllCards() {
+    Deck deck = new Deck();
+    for (int i = 0; i < 52; i++) {
+      deck.dealOneCard();
+    }
+    //assert that there are no cards left in the deck
+    assertThat(deck.getCards().size(), is(0));
+    assertThat(deck.dealOneCard().isPresent(), is(false));
+  }
+
+  @Test
   public void testInitialization() {
     Deck deck = new Deck();
     assertThat(deck.getCards().size(), is(52));
