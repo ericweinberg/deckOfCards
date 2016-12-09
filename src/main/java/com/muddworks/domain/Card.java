@@ -28,6 +28,20 @@ public class Card {
     return value;
   }
 
+  public String getFaceValue() {
+    switch (value) {
+      case 1:
+        return "Ace";
+      case 11:
+        return "Jack";
+      case 12:
+        return "Queen";
+      case 13:
+        return "King";
+    }
+    return value + "";
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -49,7 +63,7 @@ public class Card {
   public String toString() {
     final StringBuffer sb = new StringBuffer("Card{");
     sb.append("suit=").append(suit);
-    sb.append(", value=").append(value);
+    sb.append(", faceValue=").append(getFaceValue());
     sb.append('}');
     return sb.toString();
   }

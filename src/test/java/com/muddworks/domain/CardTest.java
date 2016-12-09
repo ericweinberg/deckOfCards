@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static com.muddworks.domain.Suit.CLUBS;
 import static com.muddworks.domain.Suit.HEARTS;
+import static com.muddworks.domain.Suit.SPADES;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -29,5 +30,21 @@ public class CardTest {
   @Test(expected = DomainConstraintViolation.class)
   public void testUpperValueBound() {
     new Card(HEARTS, 14);
+  }
+
+  @Test
+  public void testFaceValues() {
+    Card ace = new Card(SPADES, 1);
+    assertThat(ace.getFaceValue(), is("Ace"));
+
+    Card jack = new Card(SPADES, 11);
+    assertThat(jack.getFaceValue(), is("Jack"));
+
+    Card queen = new Card(SPADES, 12);
+    assertThat(queen.getFaceValue(), is("Queen"));
+
+    Card king = new Card(SPADES, 13);
+    assertThat(king.getFaceValue(), is("King"));
+
   }
 }
